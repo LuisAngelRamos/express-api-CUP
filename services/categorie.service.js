@@ -1,11 +1,17 @@
+const pool = require('../libs/postgres.pool');
+
 class CategoriesService {
 
 	constructor() {
 		this.categories = [];
+		this.pool = pool;
+		this.pool.on('error', (err) => console.error(err));
 	}
 
-	find() {
-		return this.categories;
+	async find() {
+		const query = 'SELECT * FROM tasks';
+		const rta = await this.pool.query(query);
+		return rta.rows;
 	}
 
 	create(body) {

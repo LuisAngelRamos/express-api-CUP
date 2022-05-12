@@ -8,10 +8,14 @@ const { createUserSchema, updateUserSchema, getUserSchema } = require('./../sche
 const service = new UsersService();
 
 router.get('/',
-	async(request, response) => {
+	async(request, response, next) => {
 
-		const user = service.find();
-		response.send(user);
+		try {
+			const users = await service.find();
+			response.send(users);
+		} catch(e) {
+			next(e);
+		}
 	}
 );
 

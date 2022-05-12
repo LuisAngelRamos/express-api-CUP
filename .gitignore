@@ -25,7 +25,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -240,6 +241,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+postgres_data
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,linux,macos,node
 

@@ -1,18 +1,24 @@
+const pool = require('../libs/postgres.pool');
+
 class UsersService {
 
 	constructor() {
 		this.users = [];
+		this.pool = pool;
+		this.pool.on('error', (err) => console.error(err));
 	}
 
-	find() {
-		return this.users;
+	async find() {
+		const query = 'SELECT * FROM tasks';
+		const rta = await this.pool.query(query);
+		return rta.rows;
 	}
 
-	findOne(id) {
+	async findOne(id) {
 		return this.users.find(item => item.id === id);;
 	}
 
-	create(body) {
+	async create(body) {
 		let newUser = {
 			id: '1',
 			...body
@@ -23,7 +29,7 @@ class UsersService {
 		return newUser;
 	}
 
-	delete(id) {
+	async delete(id) {
 		let index = this.users.findIndex(item => item.id === id);
 
 		if(index === -1) {
@@ -35,7 +41,7 @@ class UsersService {
 		return {id};
 	}
 
-	update(id, body) {
+	async update(id, body) {
 		let index = this.users.findIndex(item => item.id === id);
 
 		if(index === -1) {

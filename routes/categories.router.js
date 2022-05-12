@@ -7,8 +7,8 @@ const { createCategorieSchema, updateCategorieSchema, getCategorieSchema } = req
 const router = express.Router();
 const service = new CategoriesService();
 
-router.get('/', (request, response) => {
-	const categories = service.find();
+router.get('/', async (request, response) => {
+	const categories = await service.find();
 
 	response.send(categories);
 });

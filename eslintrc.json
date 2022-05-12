@@ -12,6 +12,7 @@
 	  "jest": true
 	},
 	"rules": {
-	  "no-console": "warn"
+	  "no-console": "warn",
+	  "indent": [2, "tab"]
 	}
   }
