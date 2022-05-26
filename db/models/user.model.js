@@ -7,27 +7,45 @@ const UserSchema = {
 		allowNull: false,
 		autoIncrement: true,
 		primaryKey: true,
-		type: DataTypes.INTEGER
+		type: DataTypes.INTEGER,
 	},
 	email: {
 		allowNull: false,
 		unique: true,
-		type: DataTypes.STRING
+		type: DataTypes.STRING,
 	},
 	password: {
 		allowNull: false,
-		type: DataTypes.STRING
+		type: DataTypes.STRING,
+	},
+	role: {
+		allowNull: false,
+		type: DataTypes.STRING,
+		defaultValue: 'customer',
 	},
 	createdAt: {
 		allowNull: false,
 		type: DataTypes.DATE,
 		field: 'created_at',
-		defaultValue: Sequelize.NOW
+		defaultValue: Sequelize.NOW,
+	},
+};
+
+class User extends Model {
+	static associate() {}
+
+	static config(sequelize) {
+		return {
+			sequelize,
+			tableName: USER_TABLE,
+			modelName: 'User',
+			timestamps: false,
+		};
 	}
 }
 
-class User extends Model {
-	static
-}
-
-
+module.exports = {
+	USER_TABLE,
+	UserSchema,
+	User,
+};

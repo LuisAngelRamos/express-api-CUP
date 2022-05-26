@@ -1,17 +1,15 @@
-const pool = require('../libs/postgres.pool');
+//const sequelize = require('../libs/sequelize');
 
 class CategoriesService {
 
 	constructor() {
 		this.categories = [];
-		this.pool = pool;
-		this.pool.on('error', (err) => console.error(err));
 	}
 
 	async find() {
-		const query = 'SELECT * FROM tasks';
-		const rta = await this.pool.query(query);
-		return rta.rows;
+		const query = 'SELECT * FROM categories';
+		//const data = await sequelize.query(query);
+		//return data;
 	}
 
 	create(body) {

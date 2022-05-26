@@ -1,10 +1,9 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 
-const sequelize = require('../libs/sequelize');
+// const sequelize = require('../libs/sequelize');
 
 class ProductsService {
-
 	constructor() {
 		this.products = [];
 		this.generate();
@@ -19,61 +18,60 @@ class ProductsService {
 				name: faker.commerce.productName(),
 				price: parseInt(faker.commerce.price(), 10),
 				image: faker.image.imageUrl(),
-				isBlock: faker.datatype.boolean()
+				isBlock: faker.datatype.boolean(),
 			});
 		}
 	}
 
 	async create(body) {
-		const new_product = {
+		const newProduct = {
 			id: faker.datatype.uuid(),
-			...body
+			...body,
 		};
-		this.products.push(new_product);
-		return(new_product);
+		this.products.push(newProduct);
+		return newProduct;
 	}
 
 	async find() {
 		const query = 'SELECT * FROM tasks';
-		const [ data ] = await sequelize.query(query);
-		return data;
+		// const [ data ] = await sequelize.query(query);
+		return query;
 	}
 
 	async findOne(id) {
-		const product = this.products.find(item => item.id === id);
-		if(!product) {
+		const product = this.products.find((item) => item.id === id);
+		if (!product) {
 			throw boom.notFound('Product not found');
 		}
-		if(product.isBlock) {
+		if (product.isBlock) {
 			throw boom.conflict('Product blocked');
 		}
 		return product;
 	}
 
 	async update(id, body) {
-		const index = this.products.findIndex(item => item.id === id);
-		if(index === -1) {
+		const index = this.products.findIndex((item) => item.id === id);
+		if (index === -1) {
 			throw boom.notFound('Product not found');
 		}
 		const product = this.products[index];
 		this.products[index] = {
 			...product,
-			...body
+			...body,
 		};
 
 		return this.products[index];
 	}
 
 	async delete(id) {
-		const index = this.products.findIndex(item => item.id === id);
-		if(index === -1) {
+		const index = this.products.findIndex((item) => item.id === id);
+		if (index === -1) {
 			throw boom.notFound('Product not found');
 		}
 		this.products.splice(index, 1);
 
-		return {id};
+		return { id };
 	}
-
 }
 
 module.exports = ProductsService;

@@ -1,62 +1,43 @@
-const pool = require('../libs/postgres.pool');
+const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 
 class UsersService {
-
-	constructor() {
-		this.users = [];
-		this.pool = pool;
-		this.pool.on('error', (err) => console.error(err));
-	}
-
 	async find() {
-		const query = 'SELECT * FROM tasks';
-		const rta = await this.pool.query(query);
-		return rta.rows;
+		const data = await models.User.findAll();
+		return data;
 	}
 
 	async findOne(id) {
-		return this.users.find(item => item.id === id);;
+		const user = await models.User.findByPk(id);
+		if (!user) {
+			throw boom.notFound('user not found');
+		}
+		return user;
 	}
 
 	async create(body) {
-		let newUser = {
-			id: '1',
-			...body
-		};
-
-		this.users.push(newUser);
-
+		const newUser = await models.User.create(body);
 		return newUser;
 	}
 
 	async delete(id) {
-		let index = this.users.findIndex(item => item.id === id);
+		const user = await this.findOne(id);
+		console.log(user);
+		const rta = await models.User.destroy({
+			where: { id },
+		});
 
-		if(index === -1) {
-			throw new Error('Product not found');
-		}
-
-		this.users.splice(index, 1);
-
-		return {id};
+		return rta;
 	}
 
 	async update(id, body) {
-		let index = this.users.findIndex(item => item.id === id);
+		const user = await this.findOne(id);
+		console.log(user);
+		const rta = await models.User.update(body, {
+			where: { id },
+		});
 
-		if(index === -1) {
-			throw new Error('Product not found');
-		}
-
-		const user = this.users[index];
-
-		this.users[index] = {
-			...user,
-			...body
-		};
-
-		return this.users[index];
-
+		return rta;
 	}
 }
 
