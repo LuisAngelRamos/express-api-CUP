@@ -8,6 +8,7 @@ function setupModels(sequelize) {
 
 	// Despues de generar los modelos se generan las asociones
 	Customer.associate(sequelize.models);
+	User.associate(sequelize.models);
 }
 
 module.exports = setupModels;

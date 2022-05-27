@@ -14,7 +14,7 @@ const service = new CustomerService();
 
 router.get('/', async (request, response, next) => {
 	try {
-		const categories = service.find();
+		const categories = await service.find();
 
 		response.status(200).json(categories);
 	} catch (err) {
@@ -43,7 +43,7 @@ router.post(
 	async (request, response, next) => {
 		try {
 			const body = request.body;
-			const categorie = service.create(body);
+			const categorie = await service.create(body);
 
 			response.status(200).json(categorie);
 		} catch (err) {
